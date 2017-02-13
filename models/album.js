@@ -2,10 +2,10 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var AlbumSchema = new Schema({
-  albumName: {type: String, default: "#"},
+  name: {type: String, default: "#"},
   artistName: {type: String, default: "#"},
-  image: {type: String, default: "#"},
-  release: {type: String, default: "#"}
+  releaseDate: {type: String, default: "#"},
+  genres: [ String ]
 });
 
 var Album = mongoose.model('Album', AlbumSchema);
