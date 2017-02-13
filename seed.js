@@ -3,7 +3,7 @@
 var db = require("./models");
 
 var albumsList =[
-  // data here soon!
+
 ];
 
 albumsList.push({
