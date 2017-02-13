@@ -38,7 +38,19 @@ sampleAlbums.push({
 
 
 $(document).ready(function() {
-  console.log('app.js loaded!');
+
+  $('.form-horizontal').submit(function(e){
+    e.preventDefault();
+    var formData= $(this).serialize();
+    $(".form-horizontal")[0].reset();
+    $.ajax({
+      method: 'POST',
+      url: '/api/albums',
+      data: formData,
+      success: renderAlbum
+    })
+  })
+
 });
 
 
