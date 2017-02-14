@@ -5,38 +5,6 @@
  *
  */
 
-
-/* hard-coded data! */
-var sampleAlbums = [];
-sampleAlbums.push({
-             artistName: 'Ladyhawke',
-             name: 'Ladyhawke',
-             releaseDate: '2008, November 18',
-             genres: [ 'new wave', 'indie rock', 'synth pop' ]
-           });
-sampleAlbums.push({
-             artistName: 'The Knife',
-             name: 'Silent Shout',
-             releaseDate: '2006, February 17',
-             genres: [ 'synth pop', 'electronica', 'experimental' ]
-           });
-sampleAlbums.push({
-             artistName: 'Juno Reactor',
-             name: 'Shango',
-             releaseDate: '2000, October 9',
-             genres: [ 'electronic', 'goa trance', 'tribal house' ]
-           });
-sampleAlbums.push({
-             artistName: 'Philip Wesley',
-             name: 'Dark Night of the Soul',
-             releaseDate: '2008, September 12',
-             genres: [ 'piano' ]
-           });
-/* end of hard-coded data */
-
-
-
-
 $(document).ready(function() {
 
   $('.form-horizontal').submit(function(e){
@@ -46,10 +14,15 @@ $(document).ready(function() {
     $.ajax({
       method: 'POST',
       url: '/api/albums',
-      data: formData,
+
       success: renderAlbum
     })
   })
+
+  $('#albums').on('click', '.add-song', function(e) {
+    e.preventDefault();
+    var id= $(this).closest('.album').data('album-id');
+});
 
 });
 
@@ -59,16 +32,24 @@ $(document).ready(function() {
 
 // this function takes a single album and renders it to the page
 
+
 $.ajax({
   method: 'GET',
   url: `/api/albums`,
   success: renderAlbum
 });
 
+
+
 function renderAlbum(albums) {
   albums.forEach(function(album){
+    var trackList = [];
+    var songArr = album.songs.map(function(song){
+      trackList.push(`(${song.trackNumber}) ${song.name} `)
+    });
+    trackList = trackList.join(" - ")
     $('#albums').append(
-      `<div class="row album">
+      `<div class="row album" data-album-id=${album.id}>
 
         <div class="col-md-10 col-md-offset-1">
           <div class="panel panel-default">
@@ -97,6 +78,10 @@ function renderAlbum(albums) {
                       <h4 class='inline-header'>Released date:</h4>
                       <span class='album-releaseDate'>${album.releaseDate}</span>
                     </li>
+                    <li class="list-group-item">
+                      <h4 class="inline-header">Songs:</h4>
+                      <span>${trackList}</span>
+                    </li>
                   </ul>
                 </div>
 
@@ -104,6 +89,7 @@ function renderAlbum(albums) {
               <!-- end of album internal row -->
 
               <div class='panel-footer'>
+                <button class='btn btn-primary add-song'>Add Song</button>
               </div>
 
             </div>

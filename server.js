@@ -26,12 +26,12 @@ var controllers = require('./controllers');
    res.sendFile(__dirname + '/views/index.html');
  });
 
+ app.get('/api', controllers.api.index);
+
+ app.get('/api/albums', controllers.albums.index);
+
+ app.post('/api/albums', controllers.albums.create);
+ 
  app.listen(process.env.PORT || 3000, function () {
    console.log('Express server is up and running on http://localhost:3000/');
  });
-
-app.get('/api', controllers.api.index);
-
-app.get('/api/albums', controllers.albums.index);
-
-app.post('/api/albums', controllers.albums.create);
